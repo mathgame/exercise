@@ -10,6 +10,7 @@ class Msg
 public:
     std::string name;
     std::string description;
+    std::string type;
 
     template<typename T>
     void AddValue( const std::string& valueName, const T& value )

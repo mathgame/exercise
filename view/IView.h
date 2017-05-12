@@ -9,7 +9,7 @@ class Msg;
 class IView
 {
 private:
-    Context* m_context = nullptr;
+    Context*  m_context = nullptr;
     bool m_updateScene;
 public:
     IView() = default;
@@ -25,7 +25,7 @@ public:
     virtual void Draw() = 0;
     virtual void Show() = 0;
     virtual void Hide() = 0;
-    virtual void RecieveMsg(const Msg& msg ) = 0;
+    virtual void RecieveMsg(const Msg& msg) = 0;
 
     virtual void SetContext(Context& context) noexcept;
     Context& GetContext() const noexcept;

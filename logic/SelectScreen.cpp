@@ -14,10 +14,15 @@ void SelectScreen::Init()
     msg.name = "select_view";
     msg.AddValue("games", m_gameInfos);
 
-    MsgMgr::Get().SendMsg(msg);
+    MsgMgr::Get().SendViewMsg(msg);
 }
 
 void SelectScreen::Deinit()
+{
+
+}
+
+void SelectScreen::RecieveMsg(const Msg &msg)
 {
 
 }

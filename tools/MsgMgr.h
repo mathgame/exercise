@@ -14,7 +14,9 @@ private:
 public:
     static MsgMgr& Get();
 
-    void SendMsg( const Msg& msg );
+    void SendViewMsg( const Msg& msg );
+    void SendLogicMsg( const Msg& msg);
+
     bool CheckForMsg( Msg& msg );
 };
 

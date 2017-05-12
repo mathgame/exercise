@@ -67,7 +67,14 @@ void Application::Run()
         Msg msg;
         while( MsgMgr::Get().CheckForMsg(msg) )
         {
-            framework.view->RecieveMsg(msg);
+            if ( msg.type == "view")
+            {
+                framework.view->RecieveMsg(msg);
+            }
+            else if( msg.type == "logic")
+            {
+                framework.logic->RecieveMsg(msg);
+            }
         }
 
         framework.view->Update();

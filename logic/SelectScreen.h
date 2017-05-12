@@ -13,6 +13,7 @@ public:
 
     void Init() final override;
     void Deinit() final override;
+    void RecieveMsg(const Msg& msg ) final override;
 };
 
 #endif //SELECT_SCREEN_H

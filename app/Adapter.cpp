@@ -2,8 +2,10 @@
 #include <iostream>
 
 #include "../logic/SelectScreen.h"
+#include "../logic/Checkers/CheckersApp.h"
 
 #include "../view/SelectScreenView.h"
+#include "../view/Checkers/CheckersView.h"
 
 
 void Adapter::Init(Context& context)
@@ -15,8 +17,17 @@ void Adapter::Init(Context& context)
     _selectScreen.view->SetContext(context);
     m_mapping[_selectScreen.id] = _selectScreen;
 
-    m_current = _selectScreen;
-    ChangeFramework(_selectScreen.id);
+    Framework _checkersApp;
+    _checkersApp.id = 1;
+    _checkersApp.logic = new CheckersApp;
+    _checkersApp.view = new CheckersView;
+    _checkersApp.view->SetContext(context);
+    m_mapping[_checkersApp.id] = _checkersApp;
+
+    m_current = _checkersApp;
+    ChangeFramework(_checkersApp.id);
+    //m_current = _selectScreen;
+    //ChangeFramework(_selectScreen.id);
 }
 
 void Adapter::Deinit()
