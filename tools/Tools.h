@@ -3,9 +3,6 @@
 
 #include <SDL2/SDL.h>
 
-namespace Tools
-{
-
 class Color
 {
 public:
@@ -43,6 +40,5 @@ public:
     void SetPoint( int _x, int _y );
 
 };
-} // Tools
 
 #endif //TOOLS_H

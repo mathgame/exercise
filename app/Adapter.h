@@ -1,39 +1,35 @@
 #ifndef ADAPTER_H
 #define ADAPTER_H
 
-#include "../logic/ILogic.h"
-#include "../view/IView.h"
+#include "ILogic.h"
+#include "IView.h"
 #include <map>
-
+#include "IController.h"
 class Context;
-class Framework
-{
-public:
-    int id;
-    ILogic* logic;
-    IView* view;
-    Framework() = default;
-    Framework(int _id, ILogic* _logic, IView* _view) :
-        id(_id), logic(_logic), view(_view) {}
+class Msg;
 
-    bool operator> (const Framework& other)
-    {
-        return id > other.id;
-    }
-};
+//TODO - better way to add game ids.
+namespace ControllerID
+{
+    const int SelectScreen = -1;
+    const int TicTacToe = 0;
+    const int Checkers = 1;
+}
 
 class Adapter
 {
 private:
-    std::map <int, Framework> m_mapping;
-    Framework m_current;
+    std::map <int, IControllerPtr> m_controllerMap;
+    IControllerPtr m_current;
+    IControllerPtr m_requestedNext;
 public:
     Adapter() = default;
 
     void Init(Context& context);
-    void Deinit();
-    void ChangeFramework(int id);
-    const Framework& GetCurrentFramework() const;
+    void RequestChangeController(int id);
+    const IControllerPtr GetCurrentController();
+
+    void RecieveMsg( const Msg& msg );
 };
 
 #endif //ADAPTER_H

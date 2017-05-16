@@ -16,6 +16,7 @@ public:
 
     void SendViewMsg( const Msg& msg );
     void SendLogicMsg( const Msg& msg);
+    void SendSystemMsg( const Msg& msg);
 
     bool CheckForMsg( Msg& msg );
 };

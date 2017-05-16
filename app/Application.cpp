@@ -2,9 +2,11 @@
 #include <iostream>
 #include <algorithm>
 #include <SDL2/SDL.h>
-#include "../tools/MsgMgr.h"
-#include "../view/SelectScreenView.h"
-#include "../logic/SelectScreen.h"
+#include "tools/MsgMgr.h"
+#include <chrono>
+#include <thread>
+
+#define DEBUG(x) std::cout << x << std::endl;
 
 bool Application::Init()
 {
@@ -16,7 +18,8 @@ bool Application::Init()
 
     m_context.window.Init();
     m_context.renderer.Init( m_context.window.GetWindow() );
-
+    m_context.font.Init();
+    m_context.font.AddFont("../resources/fonts/Tahoma.ttf", 18);
     m_adapter.Init(m_context);
 
     return true;
@@ -27,7 +30,11 @@ void Application::Run()
     static bool alive = true;
     while( alive )
     {
-        const auto& framework = m_adapter.GetCurrentFramework();
+        std::this_thread::sleep_for(std::chrono::milliseconds(25));
+
+        const auto& controller = m_adapter.GetCurrentController();
+        const auto& framework = controller->GetCurrentFramework();
+
         alive = m_inputMgr.HandleEvent();
 
         while( m_inputMgr.HasKeyEvent() )
@@ -37,11 +44,17 @@ void Application::Run()
             {
                 case KeyState::Pressed:
                 {
-                    framework.view->OnKeyPressed(actionKeyMap.first);
+                    framework->view->OnKeyPressed(actionKeyMap.first);
+                    DEBUG("KeyState::Pressed");
                 }break;
                 case KeyState::Released:
                 {
-                    framework.view->OnKeyReleased(actionKeyMap.first);
+                    framework->view->OnKeyReleased(actionKeyMap.first);
+                    if( actionKeyMap.first == SDLK_ESCAPE )
+                    {
+                        m_adapter.RequestChangeController( ControllerID::SelectScreen );
+                    }
+                    DEBUG("KeyState::Released");
                 }break;
                 default: break;
             }
@@ -54,11 +67,13 @@ void Application::Run()
             {
                 case MouseState::Pressed:
                 {
-                    framework.view->OnMousePressed( mouseEvent.first );
+                    framework->view->OnMousePressed( mouseEvent.first );
+                    DEBUG("MouseState::Pressed");
                 }break;
                 case MouseState::Released:
                 {
-                    framework.view->OnMouseReleased( mouseEvent.first );
+                    framework->view->OnMouseReleased( mouseEvent.first );
+                    DEBUG("MouseState::Released");
                 }break;
                 default: break;
             }
@@ -69,18 +84,25 @@ void Application::Run()
         {
             if ( msg.type == "view")
             {
-                framework.view->RecieveMsg(msg);
+                framework->view->RecieveMsg(msg);
+                DEBUG("msg.type == view");
             }
             else if( msg.type == "logic")
             {
-                framework.logic->RecieveMsg(msg);
+                framework->logic->RecieveMsg(msg);
+                DEBUG("msg.type == logic");
+            }
+            else if( msg.type == "system" )
+            {
+                m_adapter.RecieveMsg(msg);
             }
         }
 
-        framework.view->Update();
-        if( framework.view->GetUpdateScene() )
+        framework->view->Update();
+        if( framework->view->GetUpdateScene() )
         {
-            framework.view->Draw();
+            framework->view->Draw();
+            DEBUG("framework->view->Draw()");
         }
 
         m_context.renderer.EndFrame();
@@ -89,6 +111,5 @@ void Application::Run()
 
 void Application::Deinit()
 {
-    m_adapter.Deinit();
     SDL_Quit();
 }

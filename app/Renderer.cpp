@@ -5,12 +5,12 @@ void Renderer::Init( SDL_Window *window )
     m_renderer = RendererPtr( SDL_CreateRenderer(window, -1, 0) );
 }
 
-void Renderer::SetColor(const Tools::Color& color)
+void Renderer::SetColor(const Color& color)
 {
     SDL_SetRenderDrawColor( m_renderer.get(), color.r, color.g, color.b, color.a );
 }
 
-void Renderer::DrawRect(const Tools::Rect& rect, bool filled)
+void Renderer::DrawRect(const Rect& rect, bool filled)
 {
     SDL_Rect sdl_rect = { rect.x, rect.y, rect.w, rect.h };
     if( filled )
@@ -24,12 +24,12 @@ void Renderer::DrawRect(const Tools::Rect& rect, bool filled)
 
 }
 
-void Renderer::DrawLine(Tools::Point begin, Tools::Point end)
+void Renderer::DrawLine(Point begin, Point end)
 {
     SDL_RenderDrawLine( m_renderer.get(), begin.x, begin.y, end.x, end.y );
 }
 
-void Renderer::DrawCircle(Tools::Point center, int radius)
+void Renderer::DrawCircle(Point center, int radius)
 {
     for( int w = 0; radius * 2; w++ )
     {
@@ -54,7 +54,7 @@ void Renderer::BeginFrame()
 
 void Renderer::EndFrame()
 {
-    SetColor( Tools::Color(0, 0, 0, 0 ) );
+    SetColor( Color(0, 0, 0, 0 ) );
     SDL_RenderPresent(m_renderer.get());
 }
 

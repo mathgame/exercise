@@ -2,7 +2,7 @@
 #define APPLICATION_H
 
 #include "Context.h"
-#include "InputMgr.h"
+#include "tools/InputMgr.h"
 #include "Adapter.h"
 
 class Application

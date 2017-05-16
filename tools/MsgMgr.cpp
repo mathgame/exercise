@@ -21,6 +21,13 @@ void MsgMgr::SendLogicMsg(const Msg &msg)
     m_messages.push(logicMsg);
 }
 
+void MsgMgr::SendSystemMsg(const Msg &msg)
+{
+    Msg systemMsg = msg;
+    systemMsg.type = "system";
+    m_messages.push(systemMsg);
+}
+
 bool MsgMgr::CheckForMsg(Msg &msg)
 {
     if( m_messages.empty() )

@@ -1,62 +1,66 @@
 #include "Adapter.h"
 #include <iostream>
-
-#include "../logic/SelectScreen.h"
-#include "../logic/Checkers/CheckersApp.h"
-
-#include "../view/SelectScreenView.h"
-#include "../view/Checkers/CheckersView.h"
-
+#include <memory>
+#include "tools/MsgMgr.h"
+#include "projects/Checkers/CheckerController.h"
+#include "projects/TicTacToe/TicTacToeController.h"
+#include "projects/SelectScreen/SelectScreenController.h"
 
 void Adapter::Init(Context& context)
 {
-    Framework _selectScreen;
-    _selectScreen.id = 0;
-    _selectScreen.logic = new SelectScreen;
-    _selectScreen.view = new SelectScreenView;
-    _selectScreen.view->SetContext(context);
-    m_mapping[_selectScreen.id] = _selectScreen;
+    //TODO make factory
+    IControllerPtr selectScreenController = std::make_shared<SelectScreenController>();
+    selectScreenController->Init(context);
+    m_controllerMap[ControllerID::SelectScreen] = selectScreenController;
 
-    Framework _checkersApp;
-    _checkersApp.id = 1;
-    _checkersApp.logic = new CheckersApp;
-    _checkersApp.view = new CheckersView;
-    _checkersApp.view->SetContext(context);
-    m_mapping[_checkersApp.id] = _checkersApp;
+    IControllerPtr ticTacToeController = std::make_shared<TicTacToeController>();
+    ticTacToeController->Init(context);
+    m_controllerMap[ControllerID::TicTacToe] = ticTacToeController;
 
-    m_current = _checkersApp;
-    ChangeFramework(_checkersApp.id);
-    //m_current = _selectScreen;
-    //ChangeFramework(_selectScreen.id);
+    IControllerPtr checkerController = std::make_shared<CheckerController>();
+    checkerController->Init(context);
+    m_controllerMap[ControllerID::Checkers] = checkerController;
+
+    m_current = m_controllerMap.at(ControllerID::TicTacToe);
+    RequestChangeController(ControllerID::TicTacToe);
 }
 
-void Adapter::Deinit()
+void Adapter::RequestChangeController(int id)
 {
-    for( auto& iter : m_mapping )
+    const auto& iter = m_controllerMap.find(id);
+    if( iter == m_controllerMap.end())
     {
-        delete iter.second.view;
-        delete iter.second.logic;
-    }
-}
-
-void Adapter::ChangeFramework(int id)
-{
-    const auto& iter = m_mapping.find(id);
-    if( iter == m_mapping.end())
-    {
-        std::cout << "This id: " << id << ", doesn't exist in mapping at Adappter!\n";
+        std::cout << "This id: " << (int)id << ", doesn't exist in m_controllerMap at Adappter!\n";
         return;
     }
-    m_current.logic->Deinit();
-    m_current.view->Hide();
-
-    m_current = (*iter).second;
-
-    m_current.logic->Init();
-    m_current.view->Show();
+    m_requestedNext = (*iter).second;
 }
 
-const Framework &Adapter::GetCurrentFramework() const
+const IControllerPtr Adapter::GetCurrentController()
 {
+    if( nullptr == m_requestedNext )
+    {
+        return m_current;
+    }
+
+    m_current->GetMainFramework()->logic->Deinit();
+    m_current->GetMainFramework()->view->Hide();
+
+    m_current = m_requestedNext;
+    m_requestedNext = nullptr;
+
+    m_current->GetMainFramework()->logic->Init();
+    m_current->GetMainFramework()->view->Show();
+
     return m_current;
+}
+
+void Adapter::RecieveMsg(const Msg &msg)
+{
+    if( msg.name == "change_controller" )
+    {
+        int controllerID = 0;
+        msg.GetValue("controller_id", controllerID );
+        RequestChangeController(controllerID);
+    }
 }
