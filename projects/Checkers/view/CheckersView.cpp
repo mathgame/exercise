@@ -2,6 +2,8 @@
 #include "app/Context.h"
 #include "tools/MsgMgr.h"
 #include "utils/Collision.h"
+#include "geometry/Rect.h"
+
 namespace
 {
     static const Point BoardGroupPos = { 150, 50 };

@@ -1,7 +1,8 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include "tools/Tools.h"
+class Rect;
+class Point;
 
 class Collision
 {

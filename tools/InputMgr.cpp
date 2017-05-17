@@ -1,6 +1,7 @@
 #include "InputMgr.h"
-#include <SDL2/SDL.h>
 #include "tools/MsgMgr.h"
+
+#include <SDL2/SDL.h>
 
 bool InputMgr::HandleEvent()
 {

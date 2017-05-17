@@ -16,4 +16,3 @@ void Grid::AddElement(const std::string &element)
 {
     m_elements.push_back(element);
 }
-

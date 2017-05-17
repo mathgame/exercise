@@ -7,6 +7,9 @@
 #include <memory>
 #include "utils/Utils.h"
 #include "tools/Tools.h"
+#include "geometry/Rect.h"
+
+class Point;
 
 using RendererPtr = std::unique_ptr<SDL_Renderer, Utils::SDL_Deiniter>;
 

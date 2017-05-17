@@ -1,11 +1,14 @@
 #ifndef I_VIEW_H
 #define I_VIEW_H
 
+#include "geometry/Point.h"
+#include <memory>
+
 class Context;
 class InputMgr;
 class Msg;
-#include "tools/Tools.h"
-#include <memory>
+
+
 class IView
 {
 private:

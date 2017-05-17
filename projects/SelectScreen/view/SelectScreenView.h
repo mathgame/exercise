@@ -4,14 +4,14 @@
 
 #include <vector>
 #include "projects/SelectScreen/common/GameInfo.h"
-#include "tools/Tools.h"
+#include "geometry/Rect.h"
 
 class SelectScreenView : public IView
 {
 private:
     std::vector<GameInfo> m_gameInfos;
     //TODO make it in tools as ready structure.
-    Rect CreateRectByOrderCount( int xPos, int yPos, int orderCount );
+    Rect CreateRectByOrderCount( int xPos, int yPos, int cellCount );
 
 public:
     SelectScreenView() = default;

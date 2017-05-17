@@ -101,6 +101,7 @@ void Application::Run()
         framework->view->Update();
         if( framework->view->GetUpdateScene() )
         {
+
             framework->view->Draw();
             DEBUG("framework->view->Draw()");
         }

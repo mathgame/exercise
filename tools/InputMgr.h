@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include "tools/Tools.h"
+#include "geometry/Point.h"
 #include "deque"
 
 enum class KeyState { Pressed, Holding, Released, Default };

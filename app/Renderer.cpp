@@ -1,4 +1,6 @@
 #include "Renderer.h"
+#include "geometry/Point.h"
+
 #include <iostream>
 
 void Renderer::Init( SDL_Window *window )
@@ -21,7 +23,7 @@ void Renderer::SetTextColor(const Color &color)
     m_textColor = color;
 }
 
-void Renderer::DrawText(int xPos, int yPos, const std::string &text)
+void Renderer::DrawText(int xPos, int yPos, const std::string& text)
 {
     if (nullptr == m_font)
     {

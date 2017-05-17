@@ -11,7 +11,7 @@ namespace
     const Point FrameGroupPos = { 115, 115 };
 }
 
-Rect SelectScreenView::CreateRectByOrderCount(int xPos, int yPos, int orderCount)
+Rect SelectScreenView::CreateRectByOrderCount(int xPos, int yPos, int cellCount)
 {
     //TODO - Should be changed easily from xml.
     static const int frameWidth = 100;
@@ -20,16 +20,16 @@ Rect SelectScreenView::CreateRectByOrderCount(int xPos, int yPos, int orderCount
     static const int maxFrameCol = 4;
     static const int borderWidth = 10;
 
-    const int maxFrameCount = maxFrameRow * maxFrameCol;
+    const int maxFrameCount = maxFrameRow + maxFrameCol;
 
-    if( orderCount >= maxFrameCount )
+    if( cellCount >= maxFrameCount )
     {
         return {};
     }
 
     //TODO - make it work with different row and col values.
-    int row = orderCount / maxFrameRow;
-    int col = orderCount % maxFrameCol;
+    int row = cellCount / maxFrameRow;
+    int col = cellCount % maxFrameCol;
 
     yPos += (row * frameHeight) + ((row-1) * borderWidth);
     xPos += (col * frameWidth) + ((col-1) * borderWidth);
