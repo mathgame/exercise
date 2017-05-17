@@ -11,7 +11,8 @@ namespace
     //const int ComputerDiffSize = 40;
 
     const Point PlayerChoiceGroupPos = { 75, 25 };
-    const int ChoiceSize = 40;
+    const int ChoiceSizeW = 100;
+    const int ChoiceSizeH = 40;
 
     const Point TicTacGroupPos = { 75, 250 };
     const int SquareSize = 100;
@@ -23,16 +24,22 @@ void TicTacView::DrawChoiceFrame()
     int xPos = PlayerChoiceGroupPos.x;
     int yPos = PlayerChoiceGroupPos.y;
 
-    GetContext().renderer.SetColor( Color(255, 0, 0, 0));
+    GetContext().renderer.SetColor( Color(100, 100, 0, 0));
+    GetContext().renderer.SetTextColor(Color(255,255,255,0));
+
+    auto font = GetContext().resourceMgr.GetFont("Tahoma.ttf", 16);
+    GetContext().renderer.SetFont(font);
+
     for(int i = 0; i < 2; i++)
     {
         for(int j = 0; j < 2; j++)
         {
-            GetContext().renderer.DrawRect({xPos, yPos, ChoiceSize, ChoiceSize}, true);
-            xPos += ChoiceSize + BorderSize;
+            GetContext().renderer.DrawRect({xPos, yPos, ChoiceSizeW, ChoiceSizeH}, true);
+            GetContext().renderer.DrawText(xPos, yPos, "Player");
+            xPos += ChoiceSizeW + BorderSize;
         }
         xPos = PlayerChoiceGroupPos.x;
-        yPos += ChoiceSize + BorderSize;
+        yPos += ChoiceSizeH + BorderSize;
     }
 }
 
@@ -71,7 +78,7 @@ void TicTacView::OnMouseReleased(Point mousePos)
             {
                 Msg msg;
                 msg.name = "chosen_square";
-                msg.AddValue("square_id", i+j);
+                msg.AddValue("square_id", static_cast<int>(i+j));
                 MsgMgr::Get().SendLogicMsg(msg);
                 break;
             }
@@ -92,7 +99,6 @@ void TicTacView::Draw()
 
     DrawChoiceFrame();
     DrawBoard();
-
 }
 
 void TicTacView::Show()

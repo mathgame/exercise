@@ -2,11 +2,11 @@
 #define MSG_H
 #include <string>
 #include <map>
-#include "utils/AnyValue.h"
+#include <experimental/any>
 
 class Msg
 {
-    std::map<std::string, Any_t> m_values;
+    std::map<std::string, std::experimental::any> m_values;
 public:
     std::string name;
     std::string description;
@@ -26,7 +26,7 @@ public:
         {
             return false;
         }
-        value = (*iter).second._<T>();
+        value = std::experimental::any_cast<T>(iter->second);
         return true;
     }
 

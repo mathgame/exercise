@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include <iostream>
 
 void Renderer::Init( SDL_Window *window )
 {
@@ -8,6 +9,35 @@ void Renderer::Init( SDL_Window *window )
 void Renderer::SetColor(const Color& color)
 {
     SDL_SetRenderDrawColor( m_renderer.get(), color.r, color.g, color.b, color.a );
+}
+
+void Renderer::SetFont(TTF_Font *font)
+{
+    m_font = font;
+}
+
+void Renderer::SetTextColor(const Color &color)
+{
+    m_textColor = color;
+}
+
+void Renderer::DrawText(int xPos, int yPos, const std::string &text)
+{
+    if (nullptr == m_font)
+    {
+        std::cout << "DrawText could not display text: [" << text << "], because font is not set!\n";
+        return;
+    }
+
+    auto surface = TTF_RenderText_Solid(m_font, text.c_str(), {m_textColor.r, m_textColor.g, m_textColor.b, m_textColor.a});
+    auto texture = SDL_CreateTextureFromSurface(m_renderer.get(), surface);
+
+    SDL_Rect destRect = {xPos, yPos, surface->w, surface->h};
+
+    SDL_RenderCopy(m_renderer.get(), texture, NULL, &destRect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
 }
 
 void Renderer::DrawRect(const Rect& rect, bool filled)

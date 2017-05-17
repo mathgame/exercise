@@ -3,11 +3,7 @@
 
 #include "Window.h"
 #include "Renderer.h"
-#include "Font.h"
-
-//#include <memory>
-//using WindowPtr = std::shared_ptr<SDL_Window>;
-//using RendererPtr = std::shared_ptr<SDL_Renderer>;
+#include "ResourceMgr.h"
 
 class Context
 {
@@ -16,7 +12,7 @@ public:
 
     Window window;
     Renderer renderer;
-    Font font;
+    ResourceMgr resourceMgr; // TODO - make resourceMgr for everygame
 };
 
 #endif //CONTEXT_H

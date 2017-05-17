@@ -5,7 +5,7 @@
 #include "tools/MsgMgr.h"
 #include <chrono>
 #include <thread>
-
+#include "tools/FileSystem.h"
 #define DEBUG(x) std::cout << x << std::endl;
 
 bool Application::Init()
@@ -18,8 +18,8 @@ bool Application::Init()
 
     m_context.window.Init();
     m_context.renderer.Init( m_context.window.GetWindow() );
-    m_context.font.Init();
-    m_context.font.AddFont("../resources/fonts/Tahoma.ttf", 18);
+    m_context.resourceMgr.Init();
+
     m_adapter.Init(m_context);
 
     return true;

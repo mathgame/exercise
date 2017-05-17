@@ -50,6 +50,6 @@ void CheckersApp::Deinit()
 
 void CheckersApp::RecieveMsg(const Msg &msg)
 {
-    int aa =0;
+    //int aa =0;
 }
 
