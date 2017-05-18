@@ -5,7 +5,7 @@
 
 void Button::Init()
 {
-//    MsgMgr::Get().ConnectSignal("OnMouseButtonPressed", &Button::OnMouseButtonPressed);
+
 }
 
 void Button::OnMouseButtonPressed(Point mousePos)

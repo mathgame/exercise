@@ -77,12 +77,14 @@ void SelectScreenView::Show()
 {
     UpdateScene();
 
-    Signals::Get().Connect("OnMousePressed", std::bind(&SelectScreenView::OnMousePressed, this, std::placeholders::_1));
+	Signals::Get().signals.connect("OnMousePressed", this, &SelectScreenView::OnMousePressed);
 }
 
 void SelectScreenView::Hide()
 {
     UpdateScene();
+
+	Signals::Get().signals.disconnect("OnMousePressed", this, &SelectScreenView::OnMousePressed);
 }
 
 void SelectScreenView::RecieveMsg(const Msg &msg)

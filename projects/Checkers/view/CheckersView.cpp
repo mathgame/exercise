@@ -76,14 +76,14 @@ void CheckersView::Show()
 {
     UpdateScene();
 
-    Signals::Get().Connect("OnMousePressed", std::bind(&CheckersView::OnMousePressed, this, std::placeholders::_1));
-
-
-
+	Signals::Get().signals.connect("OnMousePressed", this, &CheckersView::OnMousePressed);
 }
+
 void CheckersView::Hide()
 {
     UpdateScene();
+
+	Signals::Get().signals.disconnect("OnMousePressed", this, &CheckersView::OnMousePressed);
 }
 
 void CheckersView::RecieveMsg( const Msg& msg )

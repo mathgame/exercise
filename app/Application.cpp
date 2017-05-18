@@ -67,12 +67,12 @@ void Application::Run()
             {
                 case MouseState::Pressed:
                 {
-                    Signals::Get().DispatchSignal("OnMousePressed", mouseEvent.first);
+					Signals::Get().signals.emit("OnMousePressed", mouseEvent.first);
                     DEBUG("MouseState::Pressed");
                 }break;
                 case MouseState::Released:
                 {
-                    Signals::Get().DispatchSignal("OnMouseReleased", mouseEvent.first);
+					Signals::Get().signals.emit("OnMouseReleased", mouseEvent.first);
                     DEBUG("MouseState::Released");
                 }break;
                 default: break;

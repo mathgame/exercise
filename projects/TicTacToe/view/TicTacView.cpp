@@ -82,12 +82,14 @@ void TicTacView::Show()
 {
     UpdateScene();
 
-    Signals::Get().Connect("OnMousePressed", std::bind(&TicTacView::OnMousePressed, this, std::placeholders::_1));
+	Signals::Get().signals.connect("OnMousePressed", this, &TicTacView::OnMousePressed);
 }
 
 void TicTacView::Hide()
 {
     UpdateScene();
+
+	Signals::Get().signals.disconnect("OnMousePressed", this, &TicTacView::OnMousePressed);
 }
 
 void TicTacView::RecieveMsg(const Msg &msg)
