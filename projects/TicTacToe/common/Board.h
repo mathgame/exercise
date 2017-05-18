@@ -9,12 +9,17 @@ class Square
 {
 public:
     int id;
-    MarkType m_markType;
+    MarkType markType;
+
     Square() = default;
-    Square(MarkType _type) : m_markType(_type){}
+    Square(int _id, MarkType _type)
+        : id(_id)
+        , markType(_type){}
 };
 
 using Row = std::vector<Square>;
 using Board = std::vector<Row>;
+
+
 
 #endif //GAME_INFO_H

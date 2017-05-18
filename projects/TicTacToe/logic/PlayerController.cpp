@@ -1,24 +1,33 @@
 #include "PlayerController.h"
 
-void PlayersController::Init( int playersCount )
+void PlayersController::Init(int playersCount)
 {
-    switch ( playersCount) {
-    case 0:
-    {
-        //Create 2 AI robots
-    }
-        break;
-    default:
-        break;
-    }
+    m_currentPlayer = 0;
+    m_players.push_back(MarkType::O);
+    m_players.push_back(MarkType::X);
 }
 
 void PlayersController::NextPlayer()
 {
+    m_currentPlayer++;
+    if( m_currentPlayer >= m_players.size())
+    {
+        m_currentPlayer = 0;
+    }
+}
+
+Player &PlayersController::GetCurrentPlayer()
+{
+    return m_players.at(m_currentPlayer);
+}
+
+Player::Player(MarkType markType)
+    : m_markType(markType)
+{
 
 }
 
-void PlayersController::RecieveMsg(const Msg &msg)
+MarkType Player::GetMark() const
 {
-
+    return m_markType;
 }

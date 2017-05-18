@@ -3,13 +3,16 @@
 
 #include "app/ILogic.h"
 #include "../common/Board.h"
+#include "TableBoard.h"
 #include "PlayerController.h"
 
 class TicTacApp : public ILogic
 {
 private:
-    Board m_board;
-    PlayersController m_playersController;
+    TableBoard m_board;
+    PlayersController m_players;
+
+    void HandlePlayerChoice( int squareId );
 public:
 
     void Init() final override;
