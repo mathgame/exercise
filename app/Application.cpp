@@ -6,6 +6,8 @@
 #include <chrono>
 #include <thread>
 #include "tools/FileSystem.h"
+#include "tools/Signals.h"
+
 #define DEBUG(x) std::cout << x << std::endl;
 
 bool Application::Init()
@@ -44,12 +46,10 @@ void Application::Run()
             {
                 case KeyState::Pressed:
                 {
-                    framework->view->OnKeyPressed(actionKeyMap.first);
                     DEBUG("KeyState::Pressed");
                 }break;
                 case KeyState::Released:
                 {
-                    framework->view->OnKeyReleased(actionKeyMap.first);
                     if( actionKeyMap.first == SDLK_ESCAPE )
                     {
                         m_adapter.RequestChangeController( ControllerID::SelectScreen );
@@ -67,12 +67,12 @@ void Application::Run()
             {
                 case MouseState::Pressed:
                 {
-                    framework->view->OnMousePressed( mouseEvent.first );
+                    Signals::Get().DispatchSignal("OnMousePressed", mouseEvent.first);
                     DEBUG("MouseState::Pressed");
                 }break;
                 case MouseState::Released:
                 {
-                    framework->view->OnMouseReleased( mouseEvent.first );
+                    Signals::Get().DispatchSignal("OnMouseReleased", mouseEvent.first);
                     DEBUG("MouseState::Released");
                 }break;
                 default: break;

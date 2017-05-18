@@ -3,6 +3,9 @@
 #include "tools/InputMgr.h"
 #include "tools/MsgMgr.h"
 #include "utils/Collision.h"
+
+#include <tools/Signals.h>
+#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -37,7 +40,7 @@ Rect SelectScreenView::CreateRectByOrderCount(int xPos, int yPos, int cellCount)
     return {xPos, yPos, frameWidth, frameHeight};
 }
 
-void SelectScreenView::OnMousePressed(Point mousePos)
+void SelectScreenView::OnMousePressed(const Point& mousePos)
 {
     for( size_t i = 0; i < m_gameInfos.size(); i++)
     {
@@ -51,21 +54,6 @@ void SelectScreenView::OnMousePressed(Point mousePos)
             break;
         }
     }
-}
-
-void SelectScreenView::OnMouseReleased(Point mousePos)
-{
-
-}
-
-void SelectScreenView::OnKeyPressed(int keyID)
-{
-    std::cout << "KeyPressed : " << keyID << std::endl;
-}
-
-void SelectScreenView::OnKeyReleased(int keyID)
-{
-    std::cout << "KeyReleased : " << keyID << std::endl;
 }
 
 void SelectScreenView::Update()
@@ -88,6 +76,8 @@ void SelectScreenView::Draw()
 void SelectScreenView::Show()
 {
     UpdateScene();
+
+    Signals::Get().Connect("OnMousePressed", std::bind(&SelectScreenView::OnMousePressed, this, std::placeholders::_1));
 }
 
 void SelectScreenView::Hide()

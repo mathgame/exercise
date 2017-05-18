@@ -3,6 +3,7 @@
 #include "tools/InputMgr.h"
 #include "tools/MsgMgr.h"
 #include "utils/Collision.h"
+#include "tools/Signals.h"
 
 namespace
 {
@@ -60,32 +61,8 @@ void TicTacView::DrawBoard()
     }
 }
 
-void TicTacView::OnMousePressed(Point mousePos)
+void TicTacView::OnMousePressed(const Point& pos)
 {
-
-}
-
-void TicTacView::OnMouseReleased(Point mousePos)
-{
-    int xPos = TicTacGroupPos.x;
-    int yPos = TicTacGroupPos.y;
-
-    for(size_t i = 0; i < m_board.size(); i++)
-    {
-        for(size_t j = 0; j < m_board[i].size(); j++)
-        {
-            if( Collision::InRect(mousePos, {xPos, yPos, SquareSize, SquareSize}) )
-            {
-                Msg msg;
-                msg.name = "chosen_square";
-                msg.AddValue("square_id", static_cast<int>(i+j));
-                MsgMgr::Get().SendLogicMsg(msg);
-                break;
-            }
-        }
-        xPos = TicTacGroupPos.x;
-        yPos += (SquareSize + BorderSize);
-    }
 }
 
 void TicTacView::Update()
@@ -104,6 +81,8 @@ void TicTacView::Draw()
 void TicTacView::Show()
 {
     UpdateScene();
+
+    Signals::Get().Connect("OnMousePressed", std::bind(&TicTacView::OnMousePressed, this, std::placeholders::_1));
 }
 
 void TicTacView::Hide()

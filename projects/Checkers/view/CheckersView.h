@@ -11,11 +11,7 @@ private:
 public:
     CheckersView() = default;
 
-    void OnMousePressed(Point mousePos) final override;
-    void OnMouseReleased(Point mousePos) final override;
-
-    void OnKeyPressed(int keyID) final override;
-    void OnKeyReleased(int keyID) final override;
+    void OnMousePressed(const Point& mousePos);
 
     void Update() final override;
     void Draw() final override;

@@ -17,8 +17,7 @@ private:
 public:
     TicTacView() = default;
 
-    void OnMousePressed(Point mousePos) final override;
-    void OnMouseReleased(Point mousePos) final override;
+    void OnMousePressed(const Point& pos);
 
     void Update() final override;
     void Draw() final override;

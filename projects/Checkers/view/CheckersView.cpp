@@ -3,6 +3,8 @@
 #include "tools/MsgMgr.h"
 #include "utils/Collision.h"
 #include "geometry/Rect.h"
+#include "tools/Signals.h"
+#include <functional>
 
 namespace
 {
@@ -10,7 +12,7 @@ namespace
     static const int FieldSize = 50;
 }
 
-void CheckersView::OnMousePressed(Point mousePos)
+void CheckersView::OnMousePressed(const Point& mousePos)
 {
     int xPos = BoardGroupPos.x;
     int yPos = BoardGroupPos.y;
@@ -36,11 +38,6 @@ void CheckersView::OnMousePressed(Point mousePos)
         yPos += FieldSize;
     }
 }
-void CheckersView::OnMouseReleased(Point mousePos) {}
-
-void CheckersView::OnKeyPressed(int keyID){}
-
-void CheckersView::OnKeyReleased(int keyID) {}
 
 void CheckersView::Update() {}
 
@@ -78,6 +75,11 @@ void CheckersView::Draw()
 void CheckersView::Show()
 {
     UpdateScene();
+
+    Signals::Get().Connect("OnMousePressed", std::bind(&CheckersView::OnMousePressed, this, std::placeholders::_1));
+
+
+
 }
 void CheckersView::Hide()
 {

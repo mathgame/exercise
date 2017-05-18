@@ -18,12 +18,6 @@ public:
     IView() = default;
     virtual ~IView() = default;
 
-    virtual void OnKeyPressed(int keyID);
-    virtual void OnKeyReleased(int keyID);
-
-    virtual void OnMousePressed(Point mousePos);
-    virtual void OnMouseReleased(Point mousePos);
-
     virtual void Update() = 0;
     virtual void Draw() = 0;
     virtual void Show() = 0;
